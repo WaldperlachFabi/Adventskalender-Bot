@@ -15,7 +15,7 @@ var job = new CronJob(
 	'00 00 09 * * *',
 	function() {
 		console.log('Nachricht gesendet!');
-		bot.channels.cache.get(config.channelid).send(text)
+		bot.channels.cache.get(config.channelid).send(config.text)
 	},
 	null,
 	true,
