@@ -1,5 +1,5 @@
 {
-"token":"OTcxNzEwODA1NDcxMDE5MDI4.YnOeNQ.-ub8F2pZUSsM1N8TKmKyTR1Skoo", //Discord Bot Token
+"token":"BOTTOKENINHERE", //Discord Bot Token
 "channelid":"957044963680616459", //channelid für daily message
 "channelidcheck":"971879584935080117", //Die Channelid für den check command
 "prefix":"?", //Prefix für Bot z.B. ? entspricht dann ?check
