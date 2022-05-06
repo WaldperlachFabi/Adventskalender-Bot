@@ -27,9 +27,11 @@ bot.on("ready", () => {
   
 });
 bot.on("messageCreate", async (message) => {
+if(message.channel.id == config.channelidcheck){
 if(message.content.startsWith(config.prefix + "check")) {
 let argument =  message.content.split(" ").slice(1).join(" ");
 if(argument == config.correct) {message.channel.send(config.correctarg)}
 else message.channel.send(config.falsearg)
+}
 }
 });
