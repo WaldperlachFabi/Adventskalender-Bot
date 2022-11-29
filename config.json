@@ -1,10 +1,9 @@
 {
-"token":"BOTTOKENINHERE", //Discord Bot Token
-"channelid":"957044963680616459", //channelid für daily message
-"channelidcheck":"971879584935080117", //Die Channelid für den check command
-"prefix":"?", //Prefix für Bot z.B. ? entspricht dann ?check
-"text":"Dieser TextGHG wird täglich um 9 Uhr abgesckickt!", //Text kommt daily um 9 Uhr
-"correct":"1", //Richtiges Argument
-"falsearg":"FalschGHG!", //Text für falsches ARG
-"correctarg":"RichtigGHG!" //Text für richtig ARG
-}
+    "token":"XXXXXX",
+    "channelid":"1046865361041113189",
+    "channelidcheck":"NOTUSED",
+    "prefix":".",
+    "correct":"1",
+    "falsearg":"Das ist leider Falsch!",
+    "correctarg":"Richtig!"
+    }
