@@ -15,15 +15,15 @@ bot.login(config.token);
 var prefix = config.prefix
 var obj = JSON.parse(fs.readFileSync('./text.json', 'utf8'));
 let embed = new Discord.MessageEmbed()
-.setTitle("Aufgabe des Tages")
-.setDescription("Die heutige Aufgabe lautet: " + "```" + obj + "```" + " Du hast bis 19 Uhr Zeit, diese in #PLACEHOLDER abzugeben!")
+.setTitle("Rätsel des Tages")
+.setDescription("Das heutige Rätsel lautet: " + "```" + obj + "```" + " Du hast bis 19 Uhr Zeit, diese abzugeben!")
 .setColor("YELLOW")
 var CronJob = require('cron').CronJob;
 var job = new CronJob(
 	'00 00 9 * * *',
 	function() {
 		console.log('Nachricht gesendet!');
-		bot.channels.cache.get(config.channelid).send({embeds: [embed]})
+		bot.channels.cache.get(config.channelid).send({content: "<@&1047200468377534536>", embeds: [embed]})
 	},
 	null,
 	true,
@@ -31,9 +31,7 @@ var job = new CronJob(
 );
 bot.on("ready", () => {
 	let statuse = [
-		"mit Bietz 😏",
-		`mit ${bot.channels.cache.size} Usern`,
-		`auf ${bot.guilds.cache.size} Servern`,
+		"🕯 1. Advent!",
 		"by WaldperlachFabi"
 	];
 	let number = 0;
@@ -54,14 +52,76 @@ bot.on("ready", () => {
   
 });
 bot.on("messageCreate", async (message) => {
+	if (message.content == prefix + "role") {
+		let row = new Discord.MessageActionRow().addComponents(
+		  new Discord.MessageSelectMenu()
+			.setCustomId("menu")
+			.setPlaceholder("Wähle hier aus, ob du gepingt werden willst!!")
+			.setMaxValues(1)
+			.setMinValues(1)
+			.addOptions([
+			  {
+				label: "Pinge mich!",
+				emoji: "✅",
+				value: "option_1",
+			  },
+			  {
+				label: "Pinge mich nicht mehr!",
+				emoji: "❎",
+				value: "option_2",
+			  },
+			])
+		);
+		let embedrules = new Discord.MessageEmbed()
+		  .setTitle("Benachrichtigung")
+		  .setDescription("Unten im Select Menü kannst du auswählen, ob du gepingt werden willst, sobald es ein neues Rätsel gibt!")
+		  .setColor("YELLOW");
+		message.channel.send({ embeds: [embedrules], components: [row] });
+	}
 if (
 message.content.startsWith( prefix + "help")) {
+	message.delete()
 let embed = new Discord.MessageEmbed()
 				.setTitle("Info")
-				.setDescription("Vom **1.** bis zum **24.12.** wird in diesem Channel jeden Tag um **9 Uhr** ein kleines Rätsel gestellt. Wenn du dir sicher bist, dass du die Richtige Antwort hast kannst du den Button unten drücken. Dies wird einen Channel erstellen in welchem du uns **maximal eine** Lösung mitteilst. Um **19 Uhr** jedes Tages wird dann unter denen, die das Rätsel richtig beantwortet haben ausgelost! Der Gewinn wird gleichzeitig mit dem Gewinner hier in diesem Channel bekannt gegeben! Zu gewinnen gibt viele coole unterschiedliche Sachen, wie Beispielsweise **Discord Nitro, Steamkeys und viel mehr** cooles 😀👍 Viel Spaß und Erfolg wünscht das ganze Bietz Team!")
+				.setDescription("Vom **1.** bis zum **24.12.** wird in diesem Channel jeden Tag um **9 Uhr** ein kleines Rätsel gestellt. Wenn du dir sicher bist, dass du die Richtige Antwort hast kannst du den Button unten drücken. Dies wird einen Channel erstellen in welchem du uns **maximal eine** Lösung mitteilst. Um **19 Uhr** jedes Tages wird die Teilnahme beendet. Jeder der die Antwort **Richtig** hat kriegt **2 Punkte**, jeder der den Ansatz Richtig hat **1 Punkt**. Man kann nicht erfahren wieviel Punkte man hat, muss also hoffen, dass man möglichst viele hat! Die, die am **24.12.** am meisten Punkte haben Gewinnen. Die Gewinne werden gleichzeitig mit den Gewinnern hier in diesem Channel bekannt gegeben! Ausnahme: Am **6.12** und am **24.12** gilt das Punkte-System nicht! An diesen Tagen wird es so seien, dasss jeweils unter allen, die das Rätsel richtig Beantwortet haben, **2 Gewinne** verlost werden! Zu gewinnen gibt viele coole unterschiedliche Sachen, wie Beispielsweise **Amazon Gift Cards, Steamkeys und viel mehr** cooles 😀👍 Das benutzen von 2. Accounts oder sonstige wege sich Vorteile zu verschaffen, werden mit einem Warn bzw. mit Ausschluss des Events bestraft! Viel Spaß und Erfolg wünscht das ganze Bietz Team!")
 				.setColor("YELLOW")
+				let row = new Discord.MessageActionRow().addComponents(
+					new Discord.MessageSelectMenu()
+					  .setCustomId("menu")
+					  .setPlaceholder("Wähle hier aus, ob du gepingt werden willst!!")
+					  .setMaxValues(1)
+					  .setMinValues(1)
+					  .addOptions([
+						{
+						  label: "Pinge mich!",
+						  emoji: "✅",
+						  value: "option_1",
+						},
+						{
+						  label: "Pinge mich nicht mehr!",
+						  emoji: "❎",
+						  value: "option_2",
+						},
+					  ])
+				  );
+				  let embedrules = new Discord.MessageEmbed()
+					.setTitle("Benachrichtigung")
+					.setDescription("Unten im Select Menü kannst du auswählen ob du gepingt werden willst, sobald es ein neues Rätsel gibt!")
+					.setColor("YELLOW");
+					let embedcreate = new Discord.MessageEmbed()
+				.setTitle("Antwort")
+				.setDescription("Drücke auf 📩 um eine Antwort abzuschicken! Bitte überleg dir **vorher** ob du dir sicher bist und so die Aufgabe abgeben willst! Pro Person Maximal **eine** Abgabe pro Tag! - Verstoß hiergegen kann zu einem **Warn** führen!")
+				.setColor("YELLOW")
+					let button = new Discord.MessageButton()
+		  .setLabel("")
+		  .setCustomId("create_ticket_button")
+		  .setStyle("SECONDARY")
+		  .setEmoji("📩");
 	
-		message.channel.send({embeds: [embed]})
+		let rowcreate = new Discord.MessageActionRow().addComponents(button);
+					message.channel.send({embeds: [embed,embedrules], components: [row] })
+					//message.channel.send({embeds: [embedcreate], components: [rowcreate] })
+	
 }
 if (
 		message.content.startsWith( prefix + "edit") //&&
@@ -71,6 +131,7 @@ if (
 	  fs.writeFileSync("./text.json", JSON.stringify(edittext));
 var obj = JSON.parse(fs.readFileSync('./text.json', 'utf8'));
 	  message.channel.send({content: "Ich habe die nächste Aufgabe auf " + obj + " gesetzt!"})
+	  process.exit()
 	  }
 if (
 		message.content.startsWith( prefix + "read") //&&
@@ -185,7 +246,11 @@ else message.channel.send(config.falsearg)
 });
 bot.on("interactionCreate", async (interaction) => {
 	if (interaction.customId == "create_ticket_button") {
-	  interaction.deferUpdate();
+		  interaction.reply({
+			content: "✅ Abgabechannel Erfolgreich erstellt! Du kannst ihn unter der Kategorie  `》・ANTWORTEN・《` finden!",
+			ephemeral: true,
+		  });
+	  //interaction.deferUpdate();
 	  if (tickets[interaction.guild.id]) {
 		if (!bot.channels.cache.get(tickets[interaction.guild.id].id)) {
 		  await interaction.guild.channels
@@ -239,5 +304,27 @@ bot.on("interactionCreate", async (interaction) => {
   
 	if (interaction.customId == "close_ticket_button") {
 	  interaction.channel.delete();
+	}
+	if (interaction.isSelectMenu()) {
+		if (interaction.values[0] == "option_1") {
+		  let role = interaction.guild.roles.cache.get("1047200468377534536");
+		  interaction.member.roles.add(role).catch((err) => {
+			if (err) return message.channel.send("Error beim hinzufügen der Ping Rolle!");
+		  });
+		  interaction.reply({
+			content: "Du wirst nun jedes mal, wenn es ein neues Rätsel gibt gepingt!",
+			ephemeral: true,
+		  });
+		}
+		if (interaction.values[0] == "option_2") {
+		  let role = interaction.guild.roles.cache.get("1047200468377534536");
+		  interaction.member.roles.remove(role).catch((err) => {
+			if (err) return message.channel.send("Error beim entfernen der Ping Rolle!");
+		  });
+		  interaction.reply({
+			content: "Du wirst nun nicht mehr gepingt!",
+			ephemeral: true,
+		  });
+		}
 	}
 })
