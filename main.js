@@ -131,7 +131,6 @@ if (
 	  fs.writeFileSync("./text.json", JSON.stringify(edittext));
 var obj = JSON.parse(fs.readFileSync('./text.json', 'utf8'));
 	  message.channel.send({content: "Ich habe die nächste Aufgabe auf " + obj + " gesetzt!"})
-	  process.exit()
 	  }
 if (
 		message.content.startsWith( prefix + "read") //&&
