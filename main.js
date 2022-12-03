@@ -31,7 +31,7 @@ var job = new CronJob(
 );
 bot.on("ready", () => {
 	let statuse = [
-		"🕯 1. Advent!",
+		"🕯🕯 2. Advent!",
 		"by WaldperlachFabi"
 	];
 	let number = 0;
@@ -78,6 +78,9 @@ bot.on("messageCreate", async (message) => {
 		  .setColor("YELLOW");
 		message.channel.send({ embeds: [embedrules], components: [row] });
 	}
+if (message.content.startsWith(prefix + "kill")) {
+process.exit()
+}
 if (
 message.content.startsWith( prefix + "help")) {
 	message.delete()
@@ -131,6 +134,7 @@ if (
 	  fs.writeFileSync("./text.json", JSON.stringify(edittext));
 var obj = JSON.parse(fs.readFileSync('./text.json', 'utf8'));
 	  message.channel.send({content: "Ich habe die nächste Aufgabe auf " + obj + " gesetzt!"})
+	  process.exit()
 	  }
 if (
 		message.content.startsWith( prefix + "read") //&&
