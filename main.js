@@ -9,6 +9,7 @@ const bot = new Discord.Client({
 });
 const fs = require("fs");
 const config = JSON.parse(fs.readFileSync("config.json", "utf8"));
+const fetch = require('node-fetch');
 const tickets = require("./tickets.json");
 const { Permissions, MessageActionRow, MessageButton } = require("discord.js");
 bot.login(config.token);
@@ -16,7 +17,7 @@ var prefix = config.prefix
 var obj = JSON.parse(fs.readFileSync('./text.json', 'utf8'));
 let embed = new Discord.MessageEmbed()
 .setTitle("Rätsel des Tages")
-.setDescription("Das heutige Rätsel lautet: " + "```" + obj + "```" + " Du hast bis 19 Uhr Zeit, diese abzugeben!")
+.setDescription("Das heutige Rätsel lautet: " + "```" + obj + "```" + " Du hast bis 19 Uhr Zeit, dieses abzugeben!")
 .setColor("YELLOW")
 var CronJob = require('cron').CronJob;
 var job = new CronJob(
@@ -29,9 +30,21 @@ var job = new CronJob(
 	true,
 	'Europe/Berlin'
 );
+var status = new CronJob(
+	'00 * * * * *',
+	function() {
+	fetch('https://status.waldperlachfabi.de/api/push/EDITME?status=up&msg=OK&ping=')
+    .then(response => response.json())
+    //.then(json => console.log(json))
+    .catch(error => console.error(error));
+	},
+	null,
+	true,
+	'Europe/Berlin'
+);
 bot.on("ready", () => {
 	let statuse = [
-		"🕯🕯 2. Advent!",
+		"MERRY XMAS everyone!",
 		"by WaldperlachFabi"
 	];
 	let number = 0;
@@ -52,6 +65,7 @@ bot.on("ready", () => {
   
 });
 bot.on("messageCreate", async (message) => {
+
 	if (message.content == prefix + "role") {
 		let row = new Discord.MessageActionRow().addComponents(
 		  new Discord.MessageSelectMenu()
